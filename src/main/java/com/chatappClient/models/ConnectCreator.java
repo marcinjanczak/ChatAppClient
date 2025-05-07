@@ -4,17 +4,18 @@ import java.util.Scanner;
 
 public class ConnectCreator {
    Scanner scanner = new Scanner(System.in);
-    private String ipAddress, userNick;
+    private String ipAddress;
+    private  String userNick;
     private int port;
 
-
     public ConnectCreator(){
+        setConnection();
+    }
+    private void setConnection(){
         System.out.println("Witaj w aplikacji Chatowej");
         this.ipAddress = setipAddress();
-        System.out.println("Podaj port z którym się łączysz");
         this.port = setPort();
-        System.out.println("Podaj swój nick");
-        this.userNick = scanner.nextLine();
+        this.userNick = setUserNick();
     }
     private String setipAddress(){
         System.out.println("Podaj adres z którym chcesz się połączyć (default: localhost)");
@@ -32,10 +33,19 @@ public class ConnectCreator {
         }
         return Integer.parseInt(port);
     }
+    private String setUserNick(){
+        System.out.println("Podaj swój nick");
+        String nick = scanner.nextLine();
+        return nick;
+    }
     public String getIpAddress() {
         return ipAddress;
     }
     public int getPort() {
         return port;
+    }
+
+    public String getUserNick() {
+        return userNick;
     }
 }
