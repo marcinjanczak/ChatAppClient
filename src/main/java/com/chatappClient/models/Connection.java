@@ -5,8 +5,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Stack;
 
 public class Connection {
+    private Stack<String> messagesStack;
     public Connection(){
 
     }
@@ -25,6 +27,7 @@ public class Connection {
                     String serverMessage;
                     while (((serverMessage = in.readLine()) != null)) {
                         System.out.println(serverMessage);
+                        messagesStack.add(serverMessage);
                     }
                 } catch (IOException e) {
                     System.err.println("Rozłączono z serwerem.");
@@ -40,6 +43,9 @@ public class Connection {
             System.err.println("Błąd połączenia z serwerem. "+ e.getMessage());
         }
 
+    }
+    public Stack<String> getMessagesStack(){
+        return messagesStack;
     }
 }
 
