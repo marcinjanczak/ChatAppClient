@@ -10,7 +10,8 @@ import java.util.Stack;
 public class Connection {
     private Stack<String> messagesStack;
     public Connection(){
-
+        ConnectCreator connectCreator = new ConnectCreator();
+        connect(connectCreator);
     }
 
     public void connect(ConnectCreator connectCreator){
@@ -21,6 +22,7 @@ public class Connection {
                 BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in))) {
 
             System.out.println("Pomyślenie połączono z serwerem: " + connectCreator.getIpAddress());
+            messagesStack = new Stack<>();
 
             Thread messageReceiver = new Thread(() -> {
                 try {
