@@ -6,35 +6,33 @@ import java.util.ArrayList;
 import java.util.Stack;
 
 public class MessagePanel extends JPanel {
-    private ArrayList<String> messageArray;
-    JTextArea messageTextArea;
+    private JTextArea messageTextArea;
+    private JScrollPane scrollPane;
+
     public MessagePanel (){
         setLayout(new BorderLayout());
-
-        messageArray = new ArrayList<>();
-
-        messageArray.add("JD");
-        messageArray.add("JD");
-        messageArray.add("JD");
-        messageArray.add("JD");
-
-        messageTextArea = new JTextArea(15,40);
+        initComponents();
+    }
+    private void initComponents(){
+        messageTextArea = new JTextArea();
         messageTextArea.setEditable(false);
+        messageTextArea.setLineWrap(true);
+        messageTextArea.setWrapStyleWord(true);
         messageTextArea.setMargin(new Insets(10,10,10,10));
 
-        updateMessageTextArea();
+        scrollPane = new JScrollPane(messageTextArea);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        add(scrollPane,BorderLayout.CENTER);
 
-        JScrollPane jScrollPane = new JScrollPane(messageTextArea);
+//        updateMessageTextArea();
 
-        jScrollPane.setPreferredSize(new Dimension(600,500));
-        add(jScrollPane,BorderLayout.CENTER);
     }
-    public void updateMessageTextArea(){
-        StringBuilder sb = new StringBuilder();
-        for (String message : messageArray){
-            sb.append(message).append('\n');
-        }
-        messageTextArea.setText(sb.toString());
-        messageTextArea.setCaretPosition(0);
+    public void addMessage(String message){
+        messageTextArea.append(message + "\n");
+        messageTextArea.setCaretPosition(messageTextArea.getDocument().getLength());
     }
+    public void claerMessages(){
+        messageTextArea.setText("");
+    }
+
 }

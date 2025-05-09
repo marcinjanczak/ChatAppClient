@@ -1,15 +1,23 @@
 package com.chatappClient.models;
 
+import com.chatappClient.views.panels.MessagePanel;
+
+import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 
 public class Connection {
-    private Stack<String> messagesStack;
-    public Connection(){
+    private List<String> messages;
+    private MessagePanel messagePanel;
+
+    public Connection(MessagePanel messagePanel){
+        this.messagePanel = messagePanel;
         ConnectCreator connectCreator = new ConnectCreator();
         connect(connectCreator);
     }
@@ -22,21 +30,24 @@ public class Connection {
                 BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in))) {
 
             System.out.println("Pomyślenie połączono z serwerem: " + connectCreator.getIpAddress());
-            messagesStack = new Stack<>();
+            messages = new ArrayList<>();
 
             Thread messageReceiver = new Thread(() -> {
                 try {
                     String serverMessage;
                     while (((serverMessage = in.readLine()) != null)) {
                         System.out.println(serverMessage);
-                        messagesStack.add(serverMessage);
+                        messages.add(serverMessage);
+                        updateMessagePanel(serverMessage);
                     }
                 } catch (IOException e) {
                     System.err.println("Rozłączono z serwerem.");
                 }
 
             });
+            messageReceiver.setDaemon(true);
             messageReceiver.start();
+
             String userInput;
             while ((userInput = stdIn.readLine()) != null){
                 out.println(userInput);
@@ -46,8 +57,14 @@ public class Connection {
         }
 
     }
-    public Stack<String> getMessagesStack(){
-        return messagesStack;
+    private void updateMessagePanel(String message){
+        SwingUtilities.invokeLater(() ->{
+            messagePanel.addMessage(message);
+        });
+    }
+
+    public List<String> getMessages() {
+        return new ArrayList<>(messages);
     }
 }
 

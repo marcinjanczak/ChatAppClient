@@ -8,39 +8,35 @@ import java.awt.*;
 import java.util.Stack;
 
 public class MainFrame extends JFrame {
-    Connection connection;
-    Stack<String> messageStack;
-    JPanel buttonPanel;
-    JPanel messagePanel;
-
+    private Connection connection;
     private final MenuBar menuBar;
+    private final JPanel buttonPanel;
+    private final MessagePanel messagePanel;
 
-//    private final JPanel messagePanel;
+
     private final int DEFAULT_WIDTH = 800;
     private final int DEFAULT_HEIGHT = 600;
-//    private final
     public MainFrame(){
         super("Aplikacja chatowa");
         setSize(DEFAULT_WIDTH,DEFAULT_HEIGHT);
         setLayout(new BorderLayout());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
         menuBar = new MenuBar();
         messagePanel = new MessagePanel();
 
-
-
+        messagePanel.addMessage("Testowa Wiadomość");
         buttonPanel = getButtonPanel();
         add(messagePanel,BorderLayout.CENTER);
         add(buttonPanel,BorderLayout.SOUTH);
-
-
-
         setJMenuBar(menuBar);
+
         setMenuBarListeners();
+
         setLocationRelativeTo(null);
         setVisible(true);
 
-//        connection = new Connection();
+//        initConnection();
 
     }
     private JPanel getButtonPanel(){
@@ -49,7 +45,13 @@ public class MainFrame extends JFrame {
         panel.add(sendButon);
         return panel;
     }
+    private void initConnection(){
+        this.connection = new Connection(messagePanel);
+    }
 
+    public JPanel getMessagePanel() {
+        return messagePanel;
+    }
 
     private void setMenuBarListeners(){
         menuBar.getEndMenuItem().addActionListener(e -> System.exit(0));
