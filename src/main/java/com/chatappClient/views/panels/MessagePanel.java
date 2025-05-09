@@ -2,30 +2,39 @@ package com.chatappClient.views.panels;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Stack;
 
 public class MessagePanel extends JPanel {
-    Stack<String> messageStack;
+    private ArrayList<String> messageArray;
     JTextArea messageTextArea;
     public MessagePanel (){
-        setPreferredSize(new Dimension(200, 300));
+        setLayout(new BorderLayout());
 
-//        messageStack = connection.getMessagesStack();
+        messageArray = new ArrayList<>();
 
-        messageStack = new Stack<>();
-        messageStack.push("JD");
-        messageStack.push("JD");
-        messageStack.push("JD");
+        messageArray.add("JD");
+        messageArray.add("JD");
+        messageArray.add("JD");
+        messageArray.add("JD");
 
-        messageTextArea = new JTextArea();
+        messageTextArea = new JTextArea(15,40);
         messageTextArea.setEditable(false);
+        messageTextArea.setMargin(new Insets(10,10,10,10));
+
         updateMessageTextArea();
-        add(new JScrollPane(messageTextArea), BorderLayout.CENTER);
+
+        JScrollPane jScrollPane = new JScrollPane(messageTextArea);
+
+        jScrollPane.setPreferredSize(new Dimension(600,500));
+        add(jScrollPane,BorderLayout.CENTER);
     }
     public void updateMessageTextArea(){
         StringBuilder sb = new StringBuilder();
-        for (int i = messageStack.size() - 1; i >= 0; i--) {
-            sb.append(messageStack.get(i));
+        for (String message : messageArray){
+            sb.append(message).append('\n');
         }
+        messageTextArea.setText(sb.toString());
+        messageTextArea.setCaretPosition(0);
     }
 }
