@@ -13,6 +13,8 @@ public class MainFrame extends JFrame {
     private final JPanel buttonPanel;
     private final MessagePanel messagePanel;
 
+    private JButton sendButton;
+//    private inputField = new JTextField(20);
 
     private final int DEFAULT_WIDTH = 800;
     private final int DEFAULT_HEIGHT = 600;
@@ -36,25 +38,32 @@ public class MainFrame extends JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
 
-//        initConnection();
+        initConnection();
 
     }
     private JPanel getButtonPanel(){
         var panel = new JPanel();
-        JButton sendButon = new JButton("Wyslij");
-        panel.add(sendButon);
+        sendButton = new JButton("Wyslij");
+        panel.add(sendButton);
         return panel;
     }
     private void initConnection(){
         this.connection = new Connection(messagePanel);
     }
-
+    private void setMenuBarListeners(){
+        menuBar.getEndMenuItem().addActionListener(e -> System.exit(0));
+        getSendButton().addActionListener(e -> {
+            String message = JOptionPane.showInputDialog("Wyślij wiadomość: ");
+            if(message != null && !message.trim().isEmpty()){
+                connection.sendMessage(message);
+            }
+        });
+    }
     public JPanel getMessagePanel() {
         return messagePanel;
     }
 
-    private void setMenuBarListeners(){
-        menuBar.getEndMenuItem().addActionListener(e -> System.exit(0));
-
+    public JButton getSendButton() {
+        return sendButton;
     }
 }

@@ -10,7 +10,8 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Stack;
+
+import static java.lang.System.out;
 
 public class Connection {
     private List<String> messages;
@@ -36,28 +37,36 @@ public class Connection {
                 try {
                     String serverMessage;
                     while (((serverMessage = in.readLine()) != null)) {
-                        System.out.println(serverMessage);
-                        messages.add(serverMessage);
-                        updateMessagePanel(serverMessage);
+                        final String msg = serverMessage;
+                        updateMessagePanel(msg);
                     }
                 } catch (IOException e) {
-                    System.err.println("Rozłączono z serwerem.");
+                    SwingUtilities.invokeLater(() ->
+                            messagePanel.addMessage("Rozłączono z serwerem" )
+                    );
                 }
 
             });
             messageReceiver.setDaemon(true);
             messageReceiver.start();
-
-            String userInput;
-            while ((userInput = stdIn.readLine()) != null){
-                out.println(userInput);
-            }
         } catch (IOException e) {
             System.err.println("Błąd połączenia z serwerem. "+ e.getMessage());
         }
 
     }
+    public void sendMessage(String message){
+        if(out != null){
+            out.println(message);
+        }else {
+            SwingUtilities.invokeLater(() ->
+                    messagePanel.addMessage("Nie można wysłać - brak połączenia")
+            );
+        }
+
+    }
     private void updateMessagePanel(String message){
+        messages.add(message);
+
         SwingUtilities.invokeLater(() ->{
             messagePanel.addMessage(message);
         });
