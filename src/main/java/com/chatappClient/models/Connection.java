@@ -11,11 +11,11 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.lang.System.out;
 
 public class Connection {
     private List<String> messages;
-    private MessagePanel messagePanel;
+    private final MessagePanel messagePanel;
+    private PrintWriter out;
 
     public Connection(MessagePanel messagePanel){
         this.messagePanel = messagePanel;
@@ -23,37 +23,44 @@ public class Connection {
         connect(connectCreator);
     }
 
-    public void connect(ConnectCreator connectCreator){
-        try (
-                Socket socket = new Socket(connectCreator.getIpAddress(), connectCreator.getPort());
-                BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-                BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in))) {
+    public void connect(ConnectCreator connectCreator) {
+        try {
+            Socket socket = new Socket(connectCreator.getIpAddress(), connectCreator.getPort());
+            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
+            this.out  = new PrintWriter(socket.getOutputStream(), true);
+
 
             System.out.println("Pomyślenie połączono z serwerem: " + connectCreator.getIpAddress());
             messages = new ArrayList<>();
-
-            Thread messageReceiver = new Thread(() -> {
-                try {
-                    String serverMessage;
-                    while (((serverMessage = in.readLine()) != null)) {
-                        final String msg = serverMessage;
-                        updateMessagePanel(msg);
-                    }
-                } catch (IOException e) {
-                    SwingUtilities.invokeLater(() ->
-                            messagePanel.addMessage("Rozłączono z serwerem" )
-                    );
-                }
-
-            });
-            messageReceiver.setDaemon(true);
+            Thread messageReceiver = getThread(in);
             messageReceiver.start();
-        } catch (IOException e) {
-            System.err.println("Błąd połączenia z serwerem. "+ e.getMessage());
-        }
 
+        }catch (IOException e ){
+            SwingUtilities.invokeLater(() ->
+                    messagePanel.addMessage("Błąd połączenia: " + e.getMessage()
+                    ));
+        }
     }
+
+    private Thread getThread(BufferedReader in) {
+        Thread messageReceiver = new Thread(() -> {
+            try {
+                String serverMessage;
+                while (((serverMessage = in.readLine()) != null)) {
+                    updateMessagePanel(serverMessage);
+                }
+            } catch (IOException e) {
+                SwingUtilities.invokeLater(() ->
+                        messagePanel.addMessage("Rozłączono z serwerem" )
+                );
+            }
+
+        });
+        messageReceiver.setDaemon(true);
+        return messageReceiver;
+    }
+
     public void sendMessage(String message){
         if(out != null){
             out.println(message);

@@ -24,7 +24,6 @@ public class MessagePanel extends JPanel {
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         add(scrollPane,BorderLayout.CENTER);
 
-//        updateMessageTextArea();
 
     }
     public void addMessage(String message){
@@ -34,5 +33,4 @@ public class MessagePanel extends JPanel {
     public void claerMessages(){
         messageTextArea.setText("");
     }
-
 }

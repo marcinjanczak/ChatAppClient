@@ -5,7 +5,6 @@ import com.chatappClient.views.panels.MessagePanel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Stack;
 
 public class MainFrame extends JFrame {
     private Connection connection;
@@ -52,6 +51,7 @@ public class MainFrame extends JFrame {
     }
     private void setMenuBarListeners(){
         menuBar.getEndMenuItem().addActionListener(e -> System.exit(0));
+
         getSendButton().addActionListener(e -> {
             String message = JOptionPane.showInputDialog("Wyślij wiadomość: ");
             if(message != null && !message.trim().isEmpty()){
