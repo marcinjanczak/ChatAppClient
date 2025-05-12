@@ -16,14 +16,14 @@ public class Connection {
     private List<String> messages;
     private final MessagePanel messagePanel;
     private PrintWriter out;
+    private ConnectCreator connectCreator;
 
     public Connection(MessagePanel messagePanel) throws IOException {
         this.messagePanel = messagePanel;
-        ConnectCreator connectCreator = new ConnectCreator();
-        connect(connectCreator);
+        connectCreator = new ConnectCreator();
+        connect();
     }
-
-    public void connect(ConnectCreator connectCreator) {
+    public void connect() {
         try {
             Socket socket = new Socket(connectCreator.getIpAddress(), connectCreator.getPort());
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -63,7 +63,7 @@ public class Connection {
 
     public void sendMessage(String message){
         if(out != null){
-            out.println(message);
+            out.println(connectCreator.getUserNick()+": "+message);
         }else {
             SwingUtilities.invokeLater(() ->
                     messagePanel.addMessage("Nie można wysłać - brak połączenia")
