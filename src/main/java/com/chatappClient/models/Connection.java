@@ -17,7 +17,7 @@ public class Connection {
     private final MessagePanel messagePanel;
     private PrintWriter out;
 
-    public Connection(MessagePanel messagePanel){
+    public Connection(MessagePanel messagePanel) throws IOException {
         this.messagePanel = messagePanel;
         ConnectCreator connectCreator = new ConnectCreator();
         connect(connectCreator);

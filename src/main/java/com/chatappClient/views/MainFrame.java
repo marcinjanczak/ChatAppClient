@@ -5,6 +5,7 @@ import com.chatappClient.views.panels.MessagePanel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 
 public class MainFrame extends JFrame {
     private Connection connection;
@@ -17,7 +18,7 @@ public class MainFrame extends JFrame {
 
     private final int DEFAULT_WIDTH = 800;
     private final int DEFAULT_HEIGHT = 600;
-    public MainFrame(){
+    public MainFrame() throws IOException {
         super("Aplikacja chatowa");
         setSize(DEFAULT_WIDTH,DEFAULT_HEIGHT);
         setLayout(new BorderLayout());
@@ -46,7 +47,7 @@ public class MainFrame extends JFrame {
         panel.add(sendButton);
         return panel;
     }
-    private void initConnection(){
+    private void initConnection() throws IOException {
         this.connection = new Connection(messagePanel);
     }
     private void setMenuBarListeners(){
