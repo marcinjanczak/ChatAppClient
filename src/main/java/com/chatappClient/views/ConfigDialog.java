@@ -2,6 +2,8 @@ package com.chatappClient.views;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ConfigDialog extends JDialog {
     private JPanel mainPanel;
@@ -61,6 +63,17 @@ public class ConfigDialog extends JDialog {
             dispose();
         });
         return panel;
+    }
+    public Map<String,String> setNewConfigMap(){
+        Map<String,String> configMap = new HashMap<>();
+        configMap.put("adressip",parseFields(ipAdressField));
+        configMap.put("port",parseFields(portField));
+        configMap.put("nick",parseFields(nickField));
+
+        return configMap;
+    }
+    private String parseFields(JTextField field){
+        return field.getText();
     }
 
 }

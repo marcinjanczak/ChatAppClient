@@ -1,17 +1,17 @@
 package com.chatappClient;
 
+import com.chatappClient.models.ConnectCreator;
 import com.chatappClient.views.MainFrame;
 
 import javax.swing.*;
+import java.io.IOException;
 
 public class ChatClient {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         System.out.println();
         SwingUtilities.invokeLater(() ->{
             try{
-                MainFrame frame = new MainFrame();
-                frame.setVisible(true);
-                System.out.println("Powinnno być widać.");
+                 new MainFrame();
             }catch (Exception e){
                 e.printStackTrace();
                 JOptionPane.showMessageDialog(null,
@@ -20,5 +20,6 @@ public class ChatClient {
                         JOptionPane.ERROR_MESSAGE);
             }
         });
+
     }
 }

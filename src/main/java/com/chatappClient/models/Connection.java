@@ -30,7 +30,6 @@ public class Connection {
 
             this.out  = new PrintWriter(socket.getOutputStream(), true);
 
-
             System.out.println("Pomyślenie połączono z serwerem: " + connectCreator.getIpAddress());
             messages = new ArrayList<>();
             Thread messageReceiver = getThread(in);
