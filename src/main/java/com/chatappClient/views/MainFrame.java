@@ -30,7 +30,7 @@ public class MainFrame extends JFrame {
         menuBar = new MenuBar();
         messagePanel = new MessagePanel();
 
-        messagePanel.addMessage("Testowa Wiadomość");
+//        messagePanel.addMessage("Testowa Wiadomość");
         buttonPanel = setButtonPanel();
         add(messagePanel,BorderLayout.CENTER);
         add(buttonPanel,BorderLayout.SOUTH);

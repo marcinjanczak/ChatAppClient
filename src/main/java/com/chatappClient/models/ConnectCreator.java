@@ -12,8 +12,8 @@ public class ConnectCreator {
 
     public ConnectCreator() throws IOException {
         Map<String,String> map = readConnectConfig();
-        readConfig(map);
         setConnection(map);
+        readConfig(map);
     }
 
     private Map<String,String> readConnectConfig() throws IOException {
@@ -22,6 +22,8 @@ public class ConnectCreator {
         Map<String,String> map = new HashMap<>();
 
         if(configFile.exists()){
+            System.out.println("Pomyślnie wczytano configurację z pliku: "+ fileConfigName);
+
             try(BufferedReader reader = new BufferedReader(new FileReader(fileConfigName))){
                 String line;
                 while ((line = reader.readLine()) != null){
@@ -39,8 +41,19 @@ public class ConnectCreator {
             } catch (FileNotFoundException e) {
                 System.out.println(e);
             }
+
             return map;
-        } return null;
+        }
+        else {
+            System.out.println("Brak pliku konfiguracyjnego.");
+            System.out.println("Uzupełniam dane domyślne.");
+
+            map.put("adressip","localhost");
+            map.put("port","12345");
+            map.put("nick","defaultUser");
+
+            return map;
+        }
     }
     ///  Metoda tworząca nowy plik configuracyjny;
     public void createConnectConfigFile(Map<String,String> configMap) throws IOException{
@@ -65,9 +78,14 @@ public class ConnectCreator {
 
 
     private void readConfig(Map<String, String> map){
-        System.out.println(map.get("adressip"));
-        System.out.println(map.get("port"));
-        System.out.println(map.get("nick"));
+        System.out.println("||==================");
+        System.out.println("|| Wczytano konfigurację");
+        System.out.println("||");
+        System.out.println("|| Połączono z serwerem "+map.get("adressip")+":"+map.get("port"));
+        System.out.println("||");
+        System.out.println("|| Twój nick "+map.get("nick"));
+        System.out.println("||");
+        System.out.println("||==================");
     }
     private void setConnection(Map<String,String> map){
         System.out.println("Witaj w aplikacji Chatowej");
