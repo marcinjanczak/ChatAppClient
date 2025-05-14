@@ -14,6 +14,7 @@ public class MainFrame extends JFrame {
     private final MessagePanel messagePanel;
 
     private JButton sendButton;
+    private JTextField messageField;
 //    private inputField = new JTextField(20);
 
     private final int DEFAULT_WIDTH = 800;
@@ -42,8 +43,10 @@ public class MainFrame extends JFrame {
 
     }
     private JPanel getButtonPanel(){
-        var panel = new JPanel();
+        var panel = new JPanel(new GridBagLayout());
+        messageField = new JTextField();
         sendButton = new JButton("Wyslij");
+        panel.add(messageField);
         panel.add(sendButton);
         return panel;
     }
@@ -52,6 +55,7 @@ public class MainFrame extends JFrame {
     }
     private void setMenuBarListeners(){
         menuBar.getEndMenuItem().addActionListener(e -> System.exit(0));
+        menuBar.getConfigMenuItem().addActionListener(e -> openConfiDialog());
 
         getSendButton().addActionListener(e -> {
             String message = JOptionPane.showInputDialog("Wyślij wiadomość: ");
@@ -60,6 +64,13 @@ public class MainFrame extends JFrame {
             }
         });
     }
+    private void openConfiDialog(){
+        ConfigDialog dialog = new ConfigDialog(this);
+        dialog.setVisible(true);
+    }
+
+
+
     public JPanel getMessagePanel() {
         return messagePanel;
     }
