@@ -94,7 +94,6 @@ public class MainFrame extends JFrame {
     public JPanel getMessagePanel() {
         return messagePanel;
     }
-
     public JButton getSendButton() {
         return sendButton;
     }
