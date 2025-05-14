@@ -5,6 +5,8 @@ import com.chatappClient.views.panels.MessagePanel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 
 public class MainFrame extends JFrame {
@@ -29,7 +31,7 @@ public class MainFrame extends JFrame {
         messagePanel = new MessagePanel();
 
         messagePanel.addMessage("Testowa Wiadomość");
-        buttonPanel = getButtonPanel();
+        buttonPanel = setButtonPanel();
         add(messagePanel,BorderLayout.CENTER);
         add(buttonPanel,BorderLayout.SOUTH);
         setJMenuBar(menuBar);
@@ -42,12 +44,25 @@ public class MainFrame extends JFrame {
         initConnection();
 
     }
-    private JPanel getButtonPanel(){
+    private JPanel setButtonPanel(){
         var panel = new JPanel(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+
         messageField = new JTextField();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 0.9;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.insets = new Insets(2,2,2,2);
+        panel.add(messageField,gbc);
+
         sendButton = new JButton("Wyslij");
-        panel.add(messageField);
-        panel.add(sendButton);
+        gbc.gridx = 1;
+        gbc.weightx = 0.1;
+        gbc.fill = GridBagConstraints.BOTH;
+
+        panel.add(sendButton,gbc);
+
         return panel;
     }
     private void initConnection() throws IOException {
@@ -55,22 +70,35 @@ public class MainFrame extends JFrame {
     }
     private void setMenuBarListeners(){
         menuBar.getEndMenuItem().addActionListener(e -> System.exit(0));
-        menuBar.getConfigMenuItem().addActionListener(e -> openConfiDialog());
+        menuBar.getConfigMenuItem().addActionListener(e -> openConfigDialog());
 
         getSendButton().addActionListener(e -> {
-            String message = JOptionPane.showInputDialog("Wyślij wiadomość: ");
+            String message = parseField(messageField);
             if(message != null && !message.trim().isEmpty()){
                 connection.sendMessage(message);
+                messageField.setText("");
             }
         });
+//        messageField.addKeyListener(new KeyAdapter() {
+//
+//            String message = parseField(messageField);
+//
+//            @Override
+//            public void keyPressed(KeyEvent e) {
+//               if(e.getKeyCode() == KeyEvent.VK_ENTER){
+//                   connection.sendMessage(message);
+//                   messageField.setText("");
+//                }
+//            }
+//        });
     }
-    private void openConfiDialog(){
+    private void openConfigDialog(){
         ConfigDialog dialog = new ConfigDialog(this);
         dialog.setVisible(true);
     }
-
-
-
+    private String parseField(JTextField field){
+        return field.getText();
+    }
     public JPanel getMessagePanel() {
         return messagePanel;
     }

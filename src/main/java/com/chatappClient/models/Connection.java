@@ -73,7 +73,6 @@ public class Connection {
     }
     private void updateMessagePanel(String message){
         messages.add(message);
-
         SwingUtilities.invokeLater(() ->{
             messagePanel.addMessage(message);
         });
