@@ -1,12 +1,11 @@
 package com.chatappClient.views;
 
+import com.chatappClient.models.ConnectCreator;
 import com.chatappClient.models.Connection;
 import com.chatappClient.views.panels.MessagePanel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.io.IOException;
 
 public class MainFrame extends JFrame {
@@ -36,7 +35,7 @@ public class MainFrame extends JFrame {
         add(buttonPanel,BorderLayout.SOUTH);
         setJMenuBar(menuBar);
 
-        setMenuBarListeners();
+        setListeners();
 
         setLocationRelativeTo(null);
         setVisible(true);
@@ -49,6 +48,7 @@ public class MainFrame extends JFrame {
         GridBagConstraints gbc = new GridBagConstraints();
 
         messageField = new JTextField();
+
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.weightx = 0.9;
@@ -66,31 +66,24 @@ public class MainFrame extends JFrame {
         return panel;
     }
     private void initConnection() throws IOException {
-        this.connection = new Connection(messagePanel);
+        ConnectCreator connectCreator = new ConnectCreator();
+//        connectCreator.
+
+        this.connection = new Connection(messagePanel,connectCreator);
     }
-    private void setMenuBarListeners(){
+    private void setListeners(){
         menuBar.getEndMenuItem().addActionListener(e -> System.exit(0));
         menuBar.getConfigMenuItem().addActionListener(e -> openConfigDialog());
 
-        getSendButton().addActionListener(e -> {
-            String message = parseField(messageField);
-            if(message != null && !message.trim().isEmpty()){
-                connection.sendMessage(message);
-                messageField.setText("");
-            }
-        });
-//        messageField.addKeyListener(new KeyAdapter() {
-//
-//            String message = parseField(messageField);
-//
-//            @Override
-//            public void keyPressed(KeyEvent e) {
-//               if(e.getKeyCode() == KeyEvent.VK_ENTER){
-//                   connection.sendMessage(message);
-//                   messageField.setText("");
-//                }
-//            }
-//        });
+        getSendButton().addActionListener(e -> sendMessage());
+        messageField.addActionListener(e -> sendMessage());
+    }
+    private void sendMessage(){
+        String message = parseField(messageField);
+        if(message != null && !message.trim().isEmpty()){
+            connection.sendMessage(message);
+            messageField.setText("");
+        }
     }
     private void openConfigDialog(){
         ConfigDialog dialog = new ConfigDialog(this);

@@ -45,6 +45,10 @@ public class ConnectCreator {
             return map;
         }
         else {
+
+
+
+
             System.out.println("Brak pliku konfiguracyjnego.");
             System.out.println("Uzupełniam dane domyślne.");
 
@@ -55,8 +59,9 @@ public class ConnectCreator {
             return map;
         }
     }
+
     ///  Metoda tworząca nowy plik configuracyjny;
-    public void createConnectConfigFile(Map<String,String> configMap) throws IOException{
+    private void createConnectConfigFile(Map<String,String> configMap) throws IOException{
         String newIpAdress = configMap.get("adressip");
         String newPort = configMap.get("port");
         String newNick = configMap.get("Nick");
@@ -76,7 +81,6 @@ public class ConnectCreator {
         }
     }
 
-
     private void readConfig(Map<String, String> map){
         System.out.println("||==================");
         System.out.println("|| Wczytano konfigurację");
@@ -89,11 +93,11 @@ public class ConnectCreator {
     }
     private void setConnection(Map<String,String> map){
         System.out.println("Witaj w aplikacji Chatowej");
-        this.ipAddress = setipAddress(map.get("adressip"));
+        this.ipAddress = setIpAddress(map.get("adressip"));
         this.port = setPort(map.get("port"));
         this.userNick = setUserNick(map.get("nick"));
     }
-    private String setipAddress(String adress){
+    private String setIpAddress(String adress){
         return adress;
     }
     private Integer setPort(String port){

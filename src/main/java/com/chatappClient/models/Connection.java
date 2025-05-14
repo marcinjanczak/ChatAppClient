@@ -18,9 +18,9 @@ public class Connection {
     private PrintWriter out;
     private ConnectCreator connectCreator;
 
-    public Connection(MessagePanel messagePanel) throws IOException {
+    public Connection(MessagePanel messagePanel,ConnectCreator connectCreator) throws IOException {
         this.messagePanel = messagePanel;
-        connectCreator = new ConnectCreator();
+        this.connectCreator = connectCreator;
         connect();
     }
     public void connect() {
