@@ -2,6 +2,7 @@ package com.chatappClient.views;
 
 import com.chatappClient.models.ConnectCreator;
 import com.chatappClient.models.Connection;
+import com.chatappClient.views.dialogs.ConfigDialog;
 import com.chatappClient.views.panels.MessagePanel;
 
 import javax.swing.*;

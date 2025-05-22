@@ -1,4 +1,4 @@
-package com.chatappClient.views;
+package com.chatappClient.views.dialogs;
 
 import javax.swing.*;
 import java.awt.*;
