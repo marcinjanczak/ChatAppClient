@@ -66,16 +66,14 @@ public class ConfigDialog extends JDialog {
         });
         return panel;
     }
-    private Map<String, String> setNewConfigMap() {
-        Map<String, String> configMap = new HashMap<>();
+    private void setNewConfigMap() {
         configMap.put("adressip", parseFields(ipAdressField));
         configMap.put("port", parseFields(portField));
         configMap.put("nick", parseFields(nickField));
-
-        return configMap;
     }
 
     public Map<String, String> getConfigMap() {
+        setNewConfigMap();
         return configMap;
     }
 

@@ -78,7 +78,7 @@ public class ConnectCreator {
     private void createConnectConfigFile(Map<String,String> configMap) throws IOException{
         String newIpAdress = configMap.get("adressip");
         String newPort = configMap.get("port");
-        String newNick = configMap.get("Nick");
+        String newNick = configMap.get("nick");
 
         StringBuilder sb = new StringBuilder();
         sb.append("#Podaj adresIp z którym chcesz się połączyć").append("\n");
@@ -88,7 +88,7 @@ public class ConnectCreator {
         sb.append("#Podaj nick do połączenia").append("\n");
         sb.append("nick=").append(newNick);
 
-        try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("configtest.conf"))) {
+        try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(fileConfigName))) {
             bufferedWriter.write(sb.toString());
         }catch (FileNotFoundException e ){
             System.err.println("Błąd" + e.getMessage());
