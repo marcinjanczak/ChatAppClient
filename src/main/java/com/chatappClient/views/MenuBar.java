@@ -4,7 +4,6 @@ import javax.swing.*;
 
 public class MenuBar extends JMenuBar {
     private final JMenu fileMenu;
-
     private final JMenuItem endMenuItem;
     private final JMenuItem configMenuItem;
 
@@ -13,7 +12,6 @@ public class MenuBar extends JMenuBar {
         configMenuItem = new JMenuItem("Konfiguracja");
 
         endMenuItem = new JMenuItem("Zakończ");
-
         add(fileMenu);
 
         fileMenu.add(configMenuItem);
@@ -21,7 +19,6 @@ public class MenuBar extends JMenuBar {
     }
 
     public JMenuItem getEndMenuItem() {
-
         return endMenuItem;
     }
 

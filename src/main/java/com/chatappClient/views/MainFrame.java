@@ -67,9 +67,7 @@ public class MainFrame extends JFrame {
         return panel;
     }
     private void initConnection() throws IOException {
-        ConnectCreator connectCreator = new ConnectCreator();
-//        connectCreator.
-
+        ConnectCreator connectCreator = new ConnectCreator(this);
         this.connection = new Connection(messagePanel,connectCreator);
     }
     private void setListeners(){

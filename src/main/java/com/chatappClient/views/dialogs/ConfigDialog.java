@@ -8,31 +8,32 @@ import java.util.Map;
 public class ConfigDialog extends JDialog {
     private JPanel mainPanel;
     private JPanel buttonPanel;
-
     private JTextField ipAdressField;
     private JTextField portField;
     private JTextField nickField;
-
     private JButton confirmConfigButton;
     private JButton clearFieldButton;
+    private Map<String, String> configMap;
 
-    public ConfigDialog(JFrame parent){
-        super(parent,"Skonfiguruj",true);
+    public ConfigDialog(JFrame parent) {
+        super(parent, "Skonfiguruj", true);
+        configMap = new HashMap<>();
 
-        setSize(350,200);
+        setSize(350, 200);
         setLocationRelativeTo(parent);
-        setLayout(new BorderLayout(20,20));
+        setLayout(new BorderLayout(20, 20));
 
 
         mainPanel = getMainPanel();
         buttonPanel = getButtonPanel();
-        add(mainPanel,BorderLayout.CENTER);
-        add(buttonPanel,BorderLayout.SOUTH);
+        add(mainPanel, BorderLayout.CENTER);
+        add(buttonPanel, BorderLayout.SOUTH);
     }
-    private JPanel getMainPanel(){
-        var panel = new JPanel(new GridLayout(3,2,10,10));
+
+    private JPanel getMainPanel() {
+        var panel = new JPanel(new GridLayout(3, 2, 10, 10));
         ipAdressField = new JTextField();
-        portField =  new JTextField();
+        portField = new JTextField();
         nickField = new JTextField();
 
         panel.add(new JLabel("Podaj adress Ip serwera"));
@@ -44,8 +45,9 @@ public class ConfigDialog extends JDialog {
 
         return panel;
     }
-    private JPanel getButtonPanel(){
-        var panel = new JPanel(new GridLayout(1,2,10,10));
+
+    private JPanel getButtonPanel() {
+        var panel = new JPanel(new GridLayout(1, 2, 10, 10));
         confirmConfigButton = new JButton("Zatwierdź");
         clearFieldButton = new JButton("Wyczyść pola");
 
@@ -59,21 +61,25 @@ public class ConfigDialog extends JDialog {
         });
 
         confirmConfigButton.addActionListener(actionEvent -> {
-
+            setNewConfigMap();
             dispose();
         });
         return panel;
     }
-    public Map<String,String> setNewConfigMap(){
-        Map<String,String> configMap = new HashMap<>();
-        configMap.put("adressip",parseFields(ipAdressField));
-        configMap.put("port",parseFields(portField));
-        configMap.put("nick",parseFields(nickField));
+    private Map<String, String> setNewConfigMap() {
+        Map<String, String> configMap = new HashMap<>();
+        configMap.put("adressip", parseFields(ipAdressField));
+        configMap.put("port", parseFields(portField));
+        configMap.put("nick", parseFields(nickField));
 
         return configMap;
     }
-    private String parseFields(JTextField field){
-        return field.getText();
+
+    public Map<String, String> getConfigMap() {
+        return configMap;
     }
 
+    private String parseFields(JTextField field) {
+        return field.getText();
+    }
 }

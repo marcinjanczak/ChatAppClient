@@ -1,5 +1,9 @@
 package com.chatappClient.models;
 
+import com.chatappClient.views.MainFrame;
+import com.chatappClient.views.dialogs.ConfigDialog;
+
+import javax.swing.*;
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -9,8 +13,10 @@ public class ConnectCreator {
     private  String userNick;
     private int port;
     private final String fileConfigName = "connect.conf";
+    private final MainFrame parent;
 
-    public ConnectCreator() throws IOException {
+    public ConnectCreator(MainFrame parent) throws IOException {
+        this.parent = parent;
         Map<String,String> map = readConnectConfig();
         setConnection(map);
         readConfig(map);
@@ -45,16 +51,24 @@ public class ConnectCreator {
             return map;
         }
         else {
-
-
-
-
             System.out.println("Brak pliku konfiguracyjnego.");
-            System.out.println("Uzupełniam dane domyślne.");
+            JOptionPane.showMessageDialog(parent,"Brak pliku konfiguracyjnego, utwórz nowy,","Brak configu", JOptionPane.INFORMATION_MESSAGE);
 
-            map.put("adressip","localhost");
-            map.put("port","12345");
-            map.put("nick","defaultUser");
+            ConfigDialog dialog = new ConfigDialog(parent);
+            dialog.setVisible(true);
+
+            map = dialog.getConfigMap();
+
+            if(!map.isEmpty()){
+                createConnectConfigFile(map);
+            }else {
+                System.out.println("Użytkownik anulował konfiguracje.");
+            }
+//
+//
+//            map.put("adressip","localhost");
+//            map.put("port","12345");
+//            map.put("nick","defaultUser");
 
             return map;
         }
@@ -80,7 +94,6 @@ public class ConnectCreator {
             System.err.println("Błąd" + e.getMessage());
         }
     }
-
     private void readConfig(Map<String, String> map){
         System.out.println("||==================");
         System.out.println("|| Wczytano konfigurację");
